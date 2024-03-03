@@ -1,6 +1,6 @@
 [project]
-name = "mov-cli-youtube"
-description = "A mov-cli v4 plugin for watching youtube."
+name = "mov-cli-anitaku"
+description = "A mov-cli v4 plugin for watching anitaku."
 authors = [
     {name = "Ananas", email = "ananas@r3tr0ananas.lol"},
     {name = "Goldy", email = "goldy@devgoldy.xyz"}
@@ -35,15 +35,15 @@ dev = [
 ]
 
 [project.urls]
-GitHub = "https://github.com/mov-cli/mov-cli-gogotaku"
-BugTracker = "https://github.com/mov-cli/mov-cli-gogotaku/issues"
+GitHub = "https://github.com/mov-cli/mov-cli-anitaku"
+BugTracker = "https://github.com/mov-cli/mov-cli-anitaku/issues"
 
 [tool.setuptools.dynamic]
-version = { attr = "mov_cli_gogotaku.__version__" }
+version = { attr = "mov_cli_anitaku.__version__" }
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["mov_cli_gogotaku*"]
+include = ["mov_cli_anitaku*"]
