@@ -23,10 +23,10 @@ mov-cli -e
 ```
 ```toml
 [mov-cli.plugins]
-anitaku = "mov-cli-anitaku"
+anime = "mov-cli-anitaku"
 ```
 
 ## Usage
 ```sh
-mov-cli lycoris recoil --scraper anitaku
+mov-cli -s anime lycoris recoil
 ```
