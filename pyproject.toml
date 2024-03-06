@@ -1,6 +1,6 @@
 [project]
-name = "mov-cli-anitaku"
-description = "A mov-cli v4 plugin for watching anitaku."
+name = "mov-cli-anime"
+description = "A mov-cli v4 plugin for watching anime."
 authors = [
     {name = "Ananas", email = "ananas@r3tr0ananas.lol"},
     {name = "Goldy", email = "goldy@devgoldy.xyz"}
@@ -35,15 +35,15 @@ dev = [
 ]
 
 [project.urls]
-GitHub = "https://github.com/mov-cli/mov-cli-anitaku"
-BugTracker = "https://github.com/mov-cli/mov-cli-anitaku/issues"
+GitHub = "https://github.com/mov-cli/mov-cli-anime"
+BugTracker = "https://github.com/mov-cli/mov-cli-anime/issues"
 
 [tool.setuptools.dynamic]
-version = { attr = "mov_cli_anitaku.__version__" }
+version = { attr = "mov_cli_anime.__version__" }
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["mov_cli_anitaku*"]
+include = ["mov_cli_anime*"]
