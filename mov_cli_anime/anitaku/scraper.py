@@ -65,7 +65,9 @@ class AnitakuScraper(Scraper):
             for item in items:
                 id = item.find("a")["href"].split("/")[-1]
                 title = item.find("a")["title"]
-                year = item.find("p", {"class": "released"}).text.split()[-1]
+                year_text = re.findall(r"(\d{4})", item.find("p", {"class": "released"}).text)
+
+                year = year_text[0] if year_text else None
 
                 page = self.http_client.get(self.base_url + f"/category/{id}")
                 _soup = self.soup(page)
