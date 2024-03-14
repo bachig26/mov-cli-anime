@@ -55,7 +55,6 @@ class AnitakuScraper(Scraper):
             title = metadata.title,
             referrer = self.base_url,
             episode = episode,
-            season = episode.season,
             subtitles = None
         )
 
