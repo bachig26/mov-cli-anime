@@ -75,7 +75,10 @@ class AnitakuScraper(Scraper):
                 title = item.find("a")["title"]
                 year_text = re.findall(r"(\d{4})", item.find("p", {"class": "released"}).text)
 
-                year = year_text[0] if year_text else None
+                if year_text: # Animes without a year are not released
+                    year = year_text[0]
+                else:
+                    continue
 
                 page = self.http_client.get(self.base_url + f"/category/{id}")
                 _soup = self.soup(page)
