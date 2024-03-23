@@ -26,7 +26,7 @@ class AnitakuScraper(Scraper):
         results = self.__results(query, limit)
         return results
 
-    def scrape(self, metadata: Metadata, episode: Optional[utils.EpisodeSelector] = None) -> Series | Movie:
+    def scrape(self, metadata: Metadata, episode: Optional[utils.EpisodeSelector] = None, **kwargs) -> Series | Movie:
         if episode is None:
             episode = utils.EpisodeSelector()
 
@@ -57,6 +57,15 @@ class AnitakuScraper(Scraper):
             episode = episode,
             subtitles = None
         )
+
+    def scrape_episodes(self, metadata: Metadata, **kwargs) -> Dict[int, int]:
+        page = self.http_client.get(f"{self.base_url}/category/{metadata.id}")
+        _soup = self.soup(page)
+
+        episode_page = _soup.find("ul", {"id": "episode_page"})
+        li = episode_page.findAll("li")
+        last = int(li[-1].find("a")["ep_end"])
+        return {1: last} # TODO: Return multiple seasons.
 
     def __results(self, query: str, limit: int) -> Generator[Metadata, Any, None]:
         pagination = 1
@@ -119,15 +128,6 @@ class AnitakuScraper(Scraper):
                     return None
 
             pagination += 1
-
-    def scrape_metadata_episodes(self, metadata: Metadata) -> Dict[int, int]:
-        page = self.http_client.get(f"{self.base_url}/category/{metadata.id}")
-        _soup = self.soup(page)
-
-        episode_page = _soup.find("ul", {"id": "episode_page"})
-        li = episode_page.findAll("li")
-        last = int(li[-1].find("a")["ep_end"])
-        return {1: last} # TODO: Return multiple seasons.
 
     def __dood(self, url):
         video_id = url.split("/")[-1]
