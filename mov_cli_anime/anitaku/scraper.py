@@ -18,7 +18,7 @@ __all__ = ("AnitakuScraper",)
 
 class AnitakuScraper(Scraper):
     def __init__(self, config: Config, http_client: HTTPClient) -> None:
-        self.base_url = "https://anitaku.to"
+        self.base_url = "https://anitaku.so"
         super().__init__(config, http_client)
 
     def search(self, query: str, limit: int = 20) -> List[Metadata]:
@@ -30,7 +30,7 @@ class AnitakuScraper(Scraper):
         if episode is None:
             episode = utils.EpisodeSelector()
 
-        req = self.http_client.get(self.base_url + f"/{metadata.id}-episode-{episode.episode}")
+        req = self.http_client.get(self.base_url + f"/{metadata.id}-episode-{episode.episode}", redirect = True)
         soup = self.soup(req)
 
         streamwish = soup.find("li", {"class": "streamwish"})
