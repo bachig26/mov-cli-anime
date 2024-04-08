@@ -8,10 +8,11 @@ from .anitaku import *
 
 plugin: PluginHookData = {
     "version": 1, 
+    "package_name": "mov-cli-anime", # Required for the plugin update checker.
     "scrapers": {
         "DEFAULT": AnitakuScraper, 
         "anitaku": AnitakuScraper
     }
 }
 
-__version__ = "1.0.9"
+__version__ = "1.0.10"
