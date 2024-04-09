@@ -6,30 +6,28 @@ if TYPE_CHECKING:
 
     from mov_cli import Config
     from mov_cli.http_client import HTTPClient
+    from mov_cli.scraper import ScraperOptionsT
 
 import re
 
 from mov_cli import utils
 from mov_cli.scraper import Scraper
-from mov_cli import Series, Movie, Metadata, MetadataType
+from mov_cli import Single, Multi, Metadata, MetadataType
 from mov_cli import ExtraMetadata
 
 __all__ = ("AnitakuScraper",)
 
 class AnitakuScraper(Scraper):
-    def __init__(self, config: Config, http_client: HTTPClient) -> None:
+    def __init__(self, config: Config, http_client: HTTPClient, options: Optional[ScraperOptionsT] = None) -> None:
         self.base_url = "https://anitaku.so"
-        super().__init__(config, http_client)
+        super().__init__(config, http_client, options)
 
     def search(self, query: str, limit: int = 20) -> List[Metadata]:
         query = query.replace(' ', '-')
         results = self.__results(query, limit)
         return results
 
-    def scrape(self, metadata: Metadata, episode: Optional[utils.EpisodeSelector] = None, **kwargs) -> Series | Movie:
-        if episode is None:
-            episode = utils.EpisodeSelector()
-
+    def scrape(self, metadata: Metadata, episode: utils.EpisodeSelector) -> Multi | Single:
         req = self.http_client.get(self.base_url + f"/{metadata.id}-episode-{episode.episode}", redirect = True)
         soup = self.soup(req)
 
@@ -42,7 +40,7 @@ class AnitakuScraper(Scraper):
             url = self.__dood(dood.find("a")["data-video"])
 
         if metadata.type == MetadataType.MOVIE:
-            return Movie(
+            return Single(
                 url,
                 title = metadata.title,
                 referrer = self.base_url,
@@ -50,7 +48,7 @@ class AnitakuScraper(Scraper):
                 subtitles = None
             )
 
-        return Series(
+        return Multi(
             url,
             title = metadata.title,
             referrer = self.base_url,
@@ -58,7 +56,7 @@ class AnitakuScraper(Scraper):
             subtitles = None
         )
 
-    def scrape_episodes(self, metadata: Metadata, **kwargs) -> Dict[int, int]:
+    def scrape_episodes(self, metadata: Metadata) -> Dict[int, int]:
         page = self.http_client.get(f"{self.base_url}/category/{metadata.id}")
         _soup = self.soup(page)
 
